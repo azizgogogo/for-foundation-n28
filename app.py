@@ -5,8 +5,8 @@ class Window(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.windowSettings()
         self.categoryRepo = CategoryRepository()
+        self.windowSettings()
 
     def windowSettings(self):
         self.setFixedSize(500, 700)
