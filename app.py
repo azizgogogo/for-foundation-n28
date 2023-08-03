@@ -6,6 +6,7 @@ class Window(QWidget):
     def __init__(self):
         super().__init__()
         self.windowSettings()
+        self.categoryRepo = CategoryRepository()
 
     def windowSettings(self):
         self.setFixedSize(500, 700)
@@ -27,29 +28,34 @@ class Window(QWidget):
         
     def setCategories(self):
         self.listWidget.clear()
-        categories = CategoryRepository()
+        
 
-        for item in categories.getAll():
+        for item in self.categoryRepo.getAll():
             newItem = QListWidgetItem()
             newItem.setText(item["name"])
             newItem.categoryData = item
             self.listWidget.addItem(newItem)
 
     def listWidgetItem(self):
-        print(self.listWidget.currentItem().categoryData)
+        categoryId = self.listWidget.currentItem().categoryData["id"]
+        self.deleteCategory(categoryId)
+
 
     
     def createCategory(self):
-        category = CategoryRepository()
-        category.create(self.createLineEdit.text())
+        self.categoryRepo.create(self.createLineEdit.text())
         self.createLineEdit.clear()
         self.setCategories()
 
+    def deleteCategory(self, id = ""):
+        
+        msgBox = QMessageBox.question(self, "Title", "Delete ?",
+                                       QMessageBox.Yes | QMessageBox.No)
 
+        if msgBox == QMessageBox.Yes:
+            self.categoryRepo.delete(id)
 
-
-
-    
+        self.setCategories()
 
 
 
