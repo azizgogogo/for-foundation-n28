@@ -7,7 +7,7 @@ class CategoryRepository:
           self.cursor = self.dbConnection.cursor()
 
      def getAll(self):
-          query = "SELECT * FROM categories"
+          query = "SELECT * FROM categories ORDER BY category_name"
           self.cursor.execute(query)
           categories = self.cursor.fetchall()
           allCategories = []

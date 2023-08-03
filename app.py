@@ -14,8 +14,19 @@ class Window(QWidget):
         self.listWidget.itemClicked.connect(self.listWidgetItem)
         self.setCategories()
 
+
+        self.createLineEdit = QLineEdit(self)
+        self.createButton = QPushButton("Save", self)
+
+        self.createLineEdit.move(220, 20)
+        self.createButton.move(350, 20)
+
+        self.createButton.clicked.connect(self.createCategory)
+
+
         
     def setCategories(self):
+        self.listWidget.clear()
         categories = CategoryRepository()
 
         for item in categories.getAll():
@@ -26,6 +37,13 @@ class Window(QWidget):
 
     def listWidgetItem(self):
         print(self.listWidget.currentItem().categoryData)
+
+    
+    def createCategory(self):
+        category = CategoryRepository()
+        category.create(self.createLineEdit.text())
+        self.createLineEdit.clear()
+        self.setCategories()
 
 
 
